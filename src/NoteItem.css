@@ -1,0 +1,80 @@
+
+
+.note-item-container {
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    transition: all 60ms ease-in-out;
+    
+    width: 12rem;
+    height: 12rem;
+    margin: 0.5rem;
+    border-radius: 0.2rem;
+    background-color: #fc7;
+    cursor: default;    
+
+    overflow: hidden;
+}
+
+@media only screen and (max-width: 600px) {
+    .note-item-container {        
+        width: 90%;
+        height: 4rem;
+        margin: 0.2rem;
+    }
+}
+
+.note-item-container:hover {
+    cursor: grab;
+    background-color: orange; 
+}
+
+.note-item-container:active {
+    cursor: grabbing;
+    background-color: #fc7;
+    animation: note-item-toggle 120ms ease-in;
+}
+
+.note-item-content {
+    flex: 1;
+    margin: 0.5rem;    
+}
+
+.note-item-controls {
+    display: flex;    
+    flex-direction: column;   
+    justify-content: space-between;    
+}
+
+.note-item-container .btn {
+    margin: 0;
+    border-radius: 0;    
+    background-color: transparent;
+    color: #333;
+
+    height: 2rem;
+    width: 2rem;
+}
+
+.note-item-container .btn:hover {
+    color: white;
+    background-color: transparent;
+}
+
+.note-item-complete {    
+    text-decoration: line-through;
+    color: #666;    
+}
+
+.note-item-container-complete {    
+    background-color: #986;
+}
+
+.note-item-container-dragging {    
+    background-color: #ccc;
+}
+
+@keyframes note-item-toggle {
+    0%, 100% {}
+    50% {transform: translateY(2px)}
+}

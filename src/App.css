@@ -1,0 +1,28 @@
+.App {
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+
+    width: 900px;
+}
+
+@media only screen and (max-width: 900px) {
+    .App {        
+        width: 90%;
+    }
+}
+
+.note-list {
+    flex: 0 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    border-top: 2px solid #aaa;
+
+    padding: 2rem;
+}
