@@ -8,7 +8,7 @@ import './Button.css';
 
 const sampleNotes = [
     { id: 0, title: "Shopping", body: "Eggs, Bread, Milk" },
-    { id: 1, title: "Chores", body: "Dishes, laundry, coding" },
+    { id: 1, title: "Chores", body: "Dishes, laundry, {}ing" },
     { id: 2, title: "Some more tasks", body: "Done already...?" }
 ];
 
@@ -20,7 +20,7 @@ class App extends Component {
         }
         window.document.title = "React Noteapp";
 
-        this.lastID = sampleNotes.length;
+        this.lastID = sampleNotes.map(el => el.id).reduce((a, b) => Math.max(a, b));
 
         this.setSampleNotes = this.setSampleNotes.bind(this);
         this.createNote = this.createNote.bind(this);
@@ -36,6 +36,7 @@ class App extends Component {
         const notes = JSON.parse(localStorage.getItem("notes"));
         if (notes) {
             this.setState({ notes });
+            this.lastID = (notes.length ? notes.map(el => el.id).reduce((a, b) => Math.max(a, b)) : 0);
         }
     }
 
@@ -45,9 +46,8 @@ class App extends Component {
 
     createNote(note) {
         let notes = this.state.notes;
-        if (!note.title) note = { title: note, body: "" };
 
-        notes.push({ id: this.lastID, title: note.title, body: note.body });
+        notes.push({ id: this.lastID + 1, title: note.title, body: note.body });
         this.setState({ notes });
 
         this.lastID++;
@@ -72,6 +72,14 @@ class App extends Component {
         this.saveToLocalStorage(notes);
     }
 
+    deleteAllNotes() {
+        const result = window.prompt('Are you sure? Enter "Yes I am sure" below to delete all your notes! This cannot be undone!', 'nope...');
+        if (result !== "Yes I am sure") return;
+        this.setState({notes: []});
+        this.saveToLocalStorage([]);
+        this.lastID = -1;
+    }
+
     reorderNote(dragID, targetID) {
         if (dragID == targetID) return;
         let notes = this.state.notes;
@@ -93,9 +101,11 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <a className="home-link" href="/">Back home</a>
-                <h1>Note Board</h1>
-                <CreateNote addNote={this.createNote} />
+                <div className="creator-bar">                    
+                    <h1>Note Board</h1>
+                    <CreateNote addNote={this.createNote} />
+                    <button className="btn btn-delete" onClick={ev => this.deleteAllNotes()}>☠️ Clear All Notes ☠️</button>
+                </div>
                 <div className="note-list">
                     {this.state.notes.map((note, i) =>
                         <NoteItem
@@ -111,6 +121,7 @@ class App extends Component {
                         <button className="btn btn-strong" onClick={this.setSampleNotes}>Create some sample notes to get started!</button>
                     }
                 </div>
+                <a target="_blank" rel="noopener noreferrer" href="http://vivek-rajagopal.net" className="home-link">Created by Vivek Rajagopal</a>
             </div>
         );
     }

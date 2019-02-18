@@ -26,6 +26,7 @@
 
 .note-item-container:hover {
     cursor: grab;
+    color: black;
     background-color: orange; 
 }
 
@@ -37,7 +38,8 @@
 
 .note-item-content {
     flex: 1;
-    margin: 0.5rem;    
+    margin: 0.5rem 0 0 0.5rem;    
+    font-size: 92%;
 }
 
 .note-item-controls {

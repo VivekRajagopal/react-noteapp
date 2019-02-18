@@ -23,7 +23,7 @@ class CreateNote extends React.Component {
     render() {
         return (
             <form className="create-note-container" onSubmit={(e) => { e.preventDefault(); this.submitNewNote() }} >
-                <div className="create-note-row">
+                <div className="create-note-title">
                     <input
                         placeholder={this.state.focussed ? "" : "Title"}
                         type="text"
@@ -31,15 +31,16 @@ class CreateNote extends React.Component {
                         onChange={(e) => this.setState({ noteTitle: e.target.value })}
                         onFocus={ev => this.setState({ focussed: true })}
                         onBlur={ev => this.setState({ focussed: false })} />
-                    <button tabIndex={2} disabled={(this.state.noteTitle === "")} className="btn btn-strong">Create</button>
+                    <input type="image" src="/favicon.png" alt="" className="btn btn-strong" tabIndex={2} disabled={(this.state.noteTitle.trim() === "")}/>
                 </div>
-                <input
-                    className="create-note-row"
-                    placeholder="Body"
-                    type="text"
-                    value={this.state.noteBody}
-                    onChange={(e) => this.setState({ noteBody: e.target.value })}
-                />
+                <div className="create-note-body">
+                    <textarea
+                        placeholder="Body"
+                        type="textarea"                        
+                        value={this.state.noteBody}
+                        onChange={(e) => this.setState({ noteBody: e.target.value })} />
+                </div>
+
             </form>
 
         )

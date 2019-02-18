@@ -36,17 +36,17 @@ class NoteItem extends Component {
     }
 
     onDragStart(event) {
-        this.setState({dragging: true})
+        this.setState({ dragging: true })
         event.dataTransfer.setData('noteID', this.props.note.id);
     }
 
     onDragOver(event) {
-        this.props.reorderNote(event.dataTransfer.getData('noteID'),this.props.note.id);
+        this.props.reorderNote(event.dataTransfer.getData('noteID'), this.props.note.id);
         event.preventDefault();
     }
 
     onDrop(event) {
-        this.setState({dragging: false});
+        this.setState({ dragging: false });
         event.preventDefault();
     }
 
@@ -61,11 +61,13 @@ class NoteItem extends Component {
                 className={className}
                 onDragStart={this.onDragStart}
                 onDragOver={this.onDragOver}
-                onDrop={ev => this.setState({dragging: false})}
-                onDragExitCapture={ev => this.setState({dragging: false})}>
+                onDrop={ev => this.setState({ dragging: false })}
+                onDragExitCapture={ev => this.setState({ dragging: false })}>
                 <div
                     className={(this.props.note.complete) ? "note-item-content note-item-complete" : "note-item-content"}>
-                    <div><strong>{this.props.note.title}</strong></div>
+                    <div>
+                        <strong>{this.props.note.title}</strong>
+                    </div>
                     <span>{this.props.note.body}</span>
                 </div>
                 <div className="note-item-controls">

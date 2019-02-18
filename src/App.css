@@ -1,28 +1,45 @@
 .App {
     color: #333;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;    
+    justify-content: flex-start;
+    align-content: stretch;
 
     font-family: "Roboto", Arial, Helvetica, sans-serif;
-
-    width: 900px;
 }
 
-@media only screen and (max-width: 900px) {
-    .App {        
-        width: 90%;
-    }
+.creator-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    padding: 2rem;
+
+    border-right: 2px solid orange;
+}
+
+.creator-bar > h1 {
+    font-size: 300%;
+    text-align: center;
+
+    color: white;
+    background-color: #333;
+    border-radius: 0.2rem;    
+    padding: 0.5rem;
+    margin: 0.2rem;
 }
 
 .note-list {
-    flex: 0 1;
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: flex-start;
+    align-content: flex-start;
     flex-wrap: wrap;
 
-    border-top: 2px solid #aaa;
-
     padding: 2rem;
+}
+
+.note-list > .btn {
+    flex: 1;
+
 }

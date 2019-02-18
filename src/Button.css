@@ -4,9 +4,9 @@
     color: white;
     border: none;
     border-radius: 0.2rem;    
-    margin: 2px;    
+    margin: 0.2rem;    
     padding: 0.5rem;
-    font-size: 1.00rem;
+    font-size: 100%;
 
     transition: background-color 60ms ease-in;
     font-family: 'Roboto';
