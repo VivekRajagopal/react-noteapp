@@ -6,6 +6,6 @@ Notes creation require Note Title name, body is optional. Notes can be reordered
 
 ## Future planned features
 
-- **Very** basic key-pass system to sync notes online
-- Editable note content
-- Allow alternate between list view and block view
+- [ ] **Very** basic key-pass system to sync notes online
+- [ ] Editable note content
+- [ ] Allow alternate between list view and block view

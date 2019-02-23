@@ -31,12 +31,18 @@ class CreateNote extends React.Component {
                         onChange={(e) => this.setState({ noteTitle: e.target.value })}
                         onFocus={ev => this.setState({ focussed: true })}
                         onBlur={ev => this.setState({ focussed: false })} />
-                    <input type="image" src="/favicon.png" alt="" className="btn btn-strong" tabIndex={2} disabled={(this.state.noteTitle.trim() === "")}/>
+                    <input
+                        type="image"
+                        src="https://img.icons8.com/color/32/000000/note.png"
+                        alt="Create"
+                        className="btn btn-strong"
+                        tabIndex={2}
+                        disabled={(this.state.noteTitle.trim() === "")} />
                 </div>
                 <div className="create-note-body">
                     <textarea
                         placeholder="Body"
-                        type="textarea"                        
+                        type="textarea"
                         value={this.state.noteBody}
                         onChange={(e) => this.setState({ noteBody: e.target.value })} />
                 </div>

@@ -1,32 +1,46 @@
 .App {
     color: #333;
+    position: absolute;
+    height: 100%;
+   
     display: flex;
-    flex-direction: row;    
-    justify-content: flex-start;
-    align-content: stretch;
+    flex-direction: row;
+    overflow: hidden;
 
     font-family: "Roboto", Arial, Helvetica, sans-serif;
+
+    position: absolute;
+    height: 100%;
 }
 
 .creator-bar {
     display: flex;
     flex-direction: column;
-    align-items: stretch;
-
+    
     padding: 2rem;
-
     border-right: 2px solid orange;
 }
 
-.creator-bar > h1 {
-    font-size: 300%;
+.creator-bar>h1 {
+    font-size: 200%;
     text-align: center;
 
     color: white;
     background-color: #333;
-    border-radius: 0.2rem;    
     padding: 0.5rem;
     margin: 0.2rem;
+}
+
+.creator-bar>h1::after {
+    content: " ✔ ";
+    color: #1c1;
+}
+
+.note-list-container {
+    display: flex;
+    flex: 1;
+    padding: 2rem 0 2rem 2rem;
+    
 }
 
 .note-list {
@@ -36,10 +50,33 @@
     align-content: flex-start;
     flex-wrap: wrap;
 
-    padding: 2rem;
+    overflow-y: auto;
 }
 
-.note-list > .btn {
+.note-list>.btn {
     flex: 1;
 
+}
+
+@media only screen and (max-width: 900px) {
+    .App {        
+        flex-direction: column;
+        align-items: stretch;
+        overflow: auto;
+    }
+
+    .creator-bar {
+        border: none;
+        padding: 0.2rem;
+    }
+
+    .creator-bar > .hide-mobile {
+        display: none;
+    }
+
+    .note-list-container {
+        display: flex;
+        flex: 1;
+        padding: 2rem 0 2rem 2rem;        
+    }
 }

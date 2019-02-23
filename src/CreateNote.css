@@ -10,6 +10,10 @@
     flex-direction: row;
 }
 
+.create-note-title > input[type="text"] {
+    flex: 1;
+}
+
 .create-note-body {
     display: flex;
     flex-direction: column;
@@ -19,4 +23,12 @@
 .create-note-body > textarea {
     flex: 1;
     resize: none;
+}
+
+@media only screen and (max-width: 900px) {
+    .create-note-body {       
+        height: 4rem;
+        margin: 0.2rem;
+    }
+
 }

@@ -3,14 +3,16 @@ import { hot } from "react-hot-loader";
 import './NoteItem.css';
 
 class NoteItem extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             editing: false,
-            dragging: false
+            dragging: false,
         }
 
         this.toggleEdit = this.toggleEdit.bind(this);
+        this.tag = this.tag.bind(this);
+        this.edit = this.edit.bind(this);
         this.complete = this.complete.bind(this);
         this.delete = this.delete.bind(this);
         this.onDragStart = this.onDragStart.bind(this);
@@ -20,14 +22,34 @@ class NoteItem extends Component {
 
     //Wip
     toggleEdit(event) {
+        if (this.state.editing) this.edit(event);
+        else {
+            event.stopPropagation();
+            this.setState({
+                editTitle: this.props.note.title,
+                editBody: this.props.note.body,
+                editing: !this.state.editing,                 
+            });
+        }
+    }
+
+    edit(event) {
         event.stopPropagation();
-        this.setState({ editing: !this.state.editing });
-        event.currentTarget.select();
+        this.props.editNote(this.props.note.id, { title: this.state.editTitle, body: this.state.editBody });
+        this.setState({
+            editing: false,
+            editTitle: this.props.note.title,
+            editBody: this.props.note.body,
+        })
     }
 
     complete(event) {
         event.stopPropagation();
         this.props.completeNote(this.props.note.id);
+    }
+
+    tag(event) {
+
     }
 
     delete(event) {
@@ -53,25 +75,28 @@ class NoteItem extends Component {
     render() {
         let className = "note-item-container";
         className += (this.props.note.complete) ? " note-item-container-complete" : "";
-        //className += (this.state.dragging) ? " note-item-container-dragging" : "";
+        className += (!this.state.editing) ? " note-item-container-noedit" : "";
 
         return (
             <div
-                draggable
+                draggable={!this.state.editing}
                 className={className}
                 onDragStart={this.onDragStart}
                 onDragOver={this.onDragOver}
                 onDrop={ev => this.setState({ dragging: false })}
                 onDragExitCapture={ev => this.setState({ dragging: false })}>
-                <div
-                    className={(this.props.note.complete) ? "note-item-content note-item-complete" : "note-item-content"}>
-                    <div>
-                        <strong>{this.props.note.title}</strong>
-                    </div>
+                <div hidden={this.state.editing} className={(this.props.note.complete) ? "note-item-content note-item-complete" : "note-item-content"}>                    
+                    <div>({this.props.note.id}) <strong><u>{this.props.note.title}</u></strong></div>
                     <span>{this.props.note.body}</span>
                 </div>
-                <div className="note-item-controls">
+                <div hidden={!this.state.editing} className={"note-item-content"}>
+                    <input type="text" className="note-item-input" value={this.state.editTitle} onChange={ev => this.setState({ editTitle: ev.currentTarget.value })} />
+                    <textarea type="text" className="note-item-input" value={this.state.editBody} onChange={ev => this.setState({ editBody: ev.currentTarget.value })} />
+                </div>
+                <div hidden={this.state.editing} className="note-item-controls">
                     <button className="btn" onClick={this.delete}>✖</button>
+                    <button className="btn" onClick={this.toggleEdit}>{this.state.editing ? "✔" : "🖉"}</button>
+                    <button className="btn" onClick={this.tag}>⛊</button>
                     <button className="btn" onClick={this.complete}>{this.props.note.complete ? `☑` : `☐`}</button>
                 </div>
             </div>
@@ -79,4 +104,4 @@ class NoteItem extends Component {
     }
 }
 
-export default NoteItem;
+export default hot(module)(NoteItem);

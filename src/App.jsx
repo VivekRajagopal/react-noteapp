@@ -16,16 +16,20 @@ class App extends Component {
     constructor() {
         super();
         this.state = {
-            notes: sampleNotes
+            notes: [],
+            dragID: -1
         }
         window.document.title = "React Noteapp";
 
         this.lastID = sampleNotes.map(el => el.id).reduce((a, b) => Math.max(a, b));
 
         this.setSampleNotes = this.setSampleNotes.bind(this);
+        this.setLotsaNotes = this.setLotsaNotes.bind(this);
         this.createNote = this.createNote.bind(this);
+        this.editNote = this.editNote.bind(this);
         this.completeNote = this.completeNote.bind(this);
         this.deleteNote = this.deleteNote.bind(this);
+        this.dragStart = this.dragStart.bind(this);
         this.reorderNote = this.reorderNote.bind(this);
 
         this.saveToLocalStorage = this.saveToLocalStorage.bind(this);
@@ -44,6 +48,10 @@ class App extends Component {
         sampleNotes.forEach(note => this.createNote(note));
     }
 
+    setLotsaNotes() {
+        [...Array(100).keys()].forEach(i => this.createNote({ title: i.toString(), body: 'Test' }));
+    }
+
     createNote(note) {
         let notes = this.state.notes;
 
@@ -55,10 +63,20 @@ class App extends Component {
         this.saveToLocalStorage(notes);
     }
 
+    editNote(noteID, newNote) {
+        let notes = this.state.notes;
+        const note = notes.filter(note => note.id === noteID)[0];
+        note.title = newNote.title;
+        note.body = newNote.body;
+        this.setState({ notes });
+
+        this.saveToLocalStorage(notes);
+    }
+
     completeNote(noteID) {
         let notes = this.state.notes;
-        const note = notes.filter(note => note.id === noteID);
-        note[0].complete = !note[0].complete;
+        const note = notes.filter(note => note.id === noteID)[0];
+        note.complete = !note.complete;
         this.setState({ notes });
 
         this.saveToLocalStorage(notes);
@@ -73,12 +91,14 @@ class App extends Component {
     }
 
     deleteAllNotes() {
-        const result = window.prompt('Are you sure? Enter "Yes I am sure" below to delete all your notes! This cannot be undone!', 'nope...');
+        const result = window.prompt('Are you sure? Enter "Yes I am sure" below to delete all your notes! This cannot be undone!', 'Lemme think about that...');
         if (result !== "Yes I am sure") return;
-        this.setState({notes: []});
+        this.setState({ notes: [] });
         this.saveToLocalStorage([]);
         this.lastID = -1;
     }
+
+    dragStart(dragID) {this.setState({dragID})}
 
     reorderNote(dragID, targetID) {
         if (dragID == targetID) return;
@@ -101,26 +121,36 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <div className="creator-bar">                    
-                    <h1>Note Board</h1>
+                <div className="creator-bar">
+                    <h1 className="hide-mobile">NOTED</h1>
                     <CreateNote addNote={this.createNote} />
-                    <button className="btn btn-delete" onClick={ev => this.deleteAllNotes()}>☠️ Clear All Notes ☠️</button>
+                    <button className="btn btn-delete hide-mobile" onClick={ev => this.deleteAllNotes()}>☠️ Clear All Notes ☠️</button>
                 </div>
-                <div className="note-list">
-                    {this.state.notes.map((note, i) =>
-                        <NoteItem
-                            className={`note-item-container ${(note.complete) ? "note-item-complete" : ""}`}
-                            completeNote={this.completeNote}
-                            deleteNote={this.deleteNote}
-                            reorderNote={this.reorderNote}
-                            key={i}
-                            note={note} />
-                    )}
-                    {this.state.notes.length ?
-                        <span></span> :
-                        <button className="btn btn-strong" onClick={this.setSampleNotes}>Create some sample notes to get started!</button>
-                    }
+                <div className="note-list-container">
+                    <div className="note-list">
+                        {this.state.notes.map((note, i) =>
+                            <NoteItem
+                                className={`note-item-container ${(note.complete) ? "note-item-complete" : ""}`}
+                                editNote={this.editNote}
+                                completeNote={this.completeNote}
+                                deleteNote={this.deleteNote}
+                                dragStart={this.dragStart}
+                                reorderNote={this.reorderNote}
+                                key={i}
+                                note={note} />
+                        )}
+                        {this.state.notes.length ?
+                            <span></span> :
+                            <div>
+                                <button className="btn btn-strong" onClick={this.setSampleNotes}>Create some sample notes to get started!</button>
+                                <button className="btn" onClick={this.setLotsaNotes}>1000 Notes!</button>
+                            </div>
+
+                        }
+                    </div>
                 </div>
+
+
                 <a target="_blank" rel="noopener noreferrer" href="http://vivek-rajagopal.net" className="home-link">Created by Vivek Rajagopal</a>
             </div>
         );
