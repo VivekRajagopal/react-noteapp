@@ -2,6 +2,7 @@
     color: #333;
     position: absolute;
     height: 100%;
+    width: 100%;
    
     display: flex;
     flex-direction: row;
@@ -10,7 +11,6 @@
     font-family: "Roboto", Arial, Helvetica, sans-serif;
 
     position: absolute;
-    height: 100%;
 }
 
 .creator-bar {
@@ -36,11 +36,14 @@
     color: #1c1;
 }
 
+.creator-bar .search-input {
+    border: 1px solid #06f;
+    color: #06f;
+}
+
 .note-list-container {
     display: flex;
-    flex: 1;
-    padding: 2rem 0 2rem 2rem;
-    
+    padding: 2rem 0 2rem 2rem;    
 }
 
 .note-list {
@@ -49,7 +52,7 @@
     justify-content: flex-start;
     align-content: flex-start;
     flex-wrap: wrap;
-
+    flex: 1;
     overflow-y: auto;
 }
 

@@ -1,13 +1,11 @@
-
-
 .note-item-container {
-    display: flex;    
-    flex-direction: row;    
+    display: flex;
+    flex-direction: row;
     justify-content: space-between;
     transition: all 60ms ease-in-out;
-    
-    width: 14em;
-    height: 14em;
+
+    width: 12em;
+    height: 12em;
     margin: 0.5rem;
     border-radius: 0.2rem;
     background-color: #fc7;
@@ -20,26 +18,9 @@
     cursor: default;
 }
 
-@media only screen and (max-width: 900px) {
-    .note-item-container {        
-        width: 45%;
-        height: 4rem;
-        margin: 0.2rem;
-    }
-}
-
-@media only screen and (max-width: 600px) {
-    .note-item-container {        
-        width: 90%;
-        height: 4rem;
-        margin: 0.2rem;
-    }
-}
-
 .note-item-container-noedit:hover {
-    
     color: black;
-    background-color: orange; 
+    background-color: orange;
 }
 
 .note-item-container-noedit:active {
@@ -50,41 +31,48 @@
 
 .note-item-content {
     flex: 1;
-    margin: 0.36em;    
+    margin: 0.36em;
     font-size: 92%;
     height: 100%;
     overflow-x: hidden;
     overflow-y: auto;
 }
 
+.note-item-tags {
+    color: #a74; 
+    
+    padding: 0.2em;
+    margin: 0.2em;
+    font-size: 80%;
+}
+
 .note-item-controls {
-    display: flex;    
-    flex-direction: column;   
-    justify-content: space-between;    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 2px solid #333;
+    font-size: 92%;
 }
 
 .note-item-input {
     border-radius: 0px;
-    width: 95%;
+    width: 100%;
     height: auto;
     margin: 0.2em;
     padding: 0.2em;
 }
 
-.note-item-content > textarea {
+.note-item-content>textarea {
     flex: 1;
     resize: vertical;
 }
 
 .note-item-container .btn {
     margin: 0;
-    border-radius: 0;    
+    border-radius: 0;
     background-color: transparent;
-    color: #333;    
+    color: #333;
     border-color: #333;
-
-    height: 2rem;
-    width: 2rem;
 }
 
 .note-item-container .btn:hover {
@@ -93,20 +81,60 @@
     background-color: transparent;
 }
 
-.note-item-complete {    
+.note-item-complete {
     text-decoration: line-through;
-    color: #666;    
+    color: #666;
 }
 
-.note-item-container-complete {   
+.note-item-container-complete {
     background-color: #986;
 }
 
-.note-item-container-dragging {    
+.note-item-container-dragging {
     background-color: #ccc;
 }
 
 @keyframes note-item-toggle {
-    0%, 100% {}
-    50% {transform: translateY(2px)}
+
+    0%,
+    100% {}
+
+    50% {
+        transform: translateY(2px)
+    }
+}
+
+
+@media only screen and (min-width: 1400px) {
+    .note-item-container {
+        width: 15em;
+        height: 15em;
+    }
+}
+
+@media only screen and (max-width: 900px) {
+    .note-item-container {
+        flex-direction: column-reverse;
+        width: 45%;
+        
+        margin: 0.2rem;
+    }
+
+    .note-item-content {
+        font-size: 80%;
+    }
+
+    .note-item-controls {
+        flex-direction: row;
+        font-size: 80%;
+        border-left: none;
+        border-bottom: 2px solid #333;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .note-item-container {
+        width: 90%;    
+        margin: 0.2rem;
+    }
 }

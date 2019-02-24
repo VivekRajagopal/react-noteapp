@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { hot } from "react-hot-loader";
 import './NoteItem.css';
 
+import Markdown from 'markdown-to-jsx';
+
+const tagsToString = tags => {
+    if (tags.length)
+        return JSON.stringify(tags)
+    else return ""
+};
+
 class NoteItem extends Component {
     constructor(props) {
         super(props);
@@ -28,7 +36,7 @@ class NoteItem extends Component {
             this.setState({
                 editTitle: this.props.note.title,
                 editBody: this.props.note.body,
-                editing: !this.state.editing,                 
+                editing: !this.state.editing,
             });
         }
     }
@@ -85,18 +93,20 @@ class NoteItem extends Component {
                 onDragOver={this.onDragOver}
                 onDrop={ev => this.setState({ dragging: false })}
                 onDragExitCapture={ev => this.setState({ dragging: false })}>
-                <div hidden={this.state.editing} className={(this.props.note.complete) ? "note-item-content note-item-complete" : "note-item-content"}>                    
-                    <div>({this.props.note.id}) <strong><u>{this.props.note.title}</u></strong></div>
-                    <span>{this.props.note.body}</span>
+                <div hidden={this.state.editing} className={(this.props.note.complete) ? "note-item-content note-item-complete" : "note-item-content"}>
+                    <div><strong><u>{this.props.note.title}</u></strong></div>
+                    <Markdown>{this.props.note.body}</Markdown>
+                    <div className="note-item-tags">{this.props.note.tags ? tagsToString(this.props.note.tags) : ""}</div>
                 </div>
                 <div hidden={!this.state.editing} className={"note-item-content"}>
                     <input type="text" className="note-item-input" value={this.state.editTitle} onChange={ev => this.setState({ editTitle: ev.currentTarget.value })} />
-                    <textarea type="text" className="note-item-input" value={this.state.editBody} onChange={ev => this.setState({ editBody: ev.currentTarget.value })} />
+                    <textarea maxLength={200} type="text" className="note-item-input" value={this.state.editBody} onChange={ev => this.setState({ editBody: ev.currentTarget.value })} />
                 </div>
                 <div hidden={this.state.editing} className="note-item-controls">
                     <button className="btn" onClick={this.delete}>✖</button>
-                    <button className="btn" onClick={this.toggleEdit}>{this.state.editing ? "✔" : "🖉"}</button>
-                    <button className="btn" onClick={this.tag}>⛊</button>
+                    <button className="btn" hidden={this.state.editing} onClick={this.toggleEdit} style={{ transform: 'scale(-1, 1)' }}>✎</button>
+                    <button className="btn" hidden={!this.state.editing} onClick={this.toggleEdit}>✔</button>
+                    <button className="btn" onClick={this.tag} style={{ transform: 'rotate(30deg) scale(0.8, 1.2) ' }}>⛊</button>
                     <button className="btn" onClick={this.complete}>{this.props.note.complete ? `☑` : `☐`}</button>
                 </div>
             </div>

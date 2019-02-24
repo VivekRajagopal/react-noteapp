@@ -6,8 +6,7 @@ class CreateNote extends React.Component {
         super(props);
         this.state = {
             noteTitle: "",
-            noteBody: "",
-            focussed: false
+            noteBody: ""
         }
 
         this.submitNewNote = this.submitNewNote.bind(this);
@@ -25,12 +24,10 @@ class CreateNote extends React.Component {
             <form className="create-note-container" onSubmit={(e) => { e.preventDefault(); this.submitNewNote() }} >
                 <div className="create-note-title">
                     <input
-                        placeholder={this.state.focussed ? "" : "Title"}
+                        placeholder="Title"
                         type="text"
                         value={this.state.noteTitle}
-                        onChange={(e) => this.setState({ noteTitle: e.target.value })}
-                        onFocus={ev => this.setState({ focussed: true })}
-                        onBlur={ev => this.setState({ focussed: false })} />
+                        onChange={(e) => this.setState({ noteTitle: e.target.value })}/>
                     <input
                         type="image"
                         src="https://img.icons8.com/color/32/000000/note.png"
@@ -43,6 +40,7 @@ class CreateNote extends React.Component {
                     <textarea
                         placeholder="Body"
                         type="textarea"
+                        maxLength={200} 
                         value={this.state.noteBody}
                         onChange={(e) => this.setState({ noteBody: e.target.value })} />
                 </div>

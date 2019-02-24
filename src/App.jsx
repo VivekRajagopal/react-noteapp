@@ -17,6 +17,7 @@ class App extends Component {
         super();
         this.state = {
             notes: [],
+            searchTerm: "",
             dragID: -1
         }
         window.document.title = "React Noteapp";
@@ -49,7 +50,7 @@ class App extends Component {
     }
 
     setLotsaNotes() {
-        [...Array(100).keys()].forEach(i => this.createNote({ title: i.toString(), body: 'Test' }));
+        [...Array(100).keys()].forEach(i => this.createNote({ title: i.toString(), body: 'Test' + i.toString() }));
     }
 
     createNote(note) {
@@ -77,6 +78,9 @@ class App extends Component {
         let notes = this.state.notes;
         const note = notes.filter(note => note.id === noteID)[0];
         note.complete = !note.complete;
+        if (note.complete) note.tags = ['complete'];
+        else note.tags = [];
+        
         this.setState({ notes });
 
         this.saveToLocalStorage(notes);
@@ -98,7 +102,7 @@ class App extends Component {
         this.lastID = -1;
     }
 
-    dragStart(dragID) {this.setState({dragID})}
+    dragStart(dragID) { this.setState({ dragID }) }
 
     reorderNote(dragID, targetID) {
         if (dragID == targetID) return;
@@ -119,16 +123,29 @@ class App extends Component {
     }
 
     render() {
+        const filteredNotes = this.state.notes.filter(note => {
+            return (
+                note.title.toLowerCase().includes(this.state.searchTerm.toLowerCase()) ||
+                note.body.toLowerCase().includes(this.state.searchTerm.toLowerCase())
+            )
+        });
+
         return (
             <div className="App">
                 <div className="creator-bar">
                     <h1 className="hide-mobile">NOTED</h1>
                     <CreateNote addNote={this.createNote} />
-                    <button className="btn btn-delete hide-mobile" onClick={ev => this.deleteAllNotes()}>☠️ Clear All Notes ☠️</button>
+                    <input
+                        className="search-input"
+                        type="text"
+                        placeholder="Search notes..."
+                        value={this.state.searchTerm}
+                        onChange={ev => this.setState({ searchTerm: ev.currentTarget.value })} />
+                    <button className="btn btn-delete hide-mobile" onClick={ev => this.deleteAllNotes()}>☠️ x Clear All Notes x ☠️</button>
                 </div>
                 <div className="note-list-container">
                     <div className="note-list">
-                        {this.state.notes.map((note, i) =>
+                        {filteredNotes.map((note, i) =>
                             <NoteItem
                                 className={`note-item-container ${(note.complete) ? "note-item-complete" : ""}`}
                                 editNote={this.editNote}
@@ -143,7 +160,10 @@ class App extends Component {
                             <span></span> :
                             <div>
                                 <button className="btn btn-strong" onClick={this.setSampleNotes}>Create some sample notes to get started!</button>
-                                <button className="btn" onClick={this.setLotsaNotes}>1000 Notes!</button>
+
+                                {/*
+                                <button className="btn btn-strong" onClick={this.setLotsaNotes}>Bulk Notes</button>
+                                */}
                             </div>
 
                         }
